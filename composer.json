@@ -12,8 +12,10 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
+        "haruncpi/laravel-id-generator": "^1.1",
         "laravel/tinker": "^2.8",
-        "kyslik/column-sortable": "^6.5"
+        "kyslik/column-sortable": "^6.5",
+        "picqer/php-barcode-generator": "^2.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

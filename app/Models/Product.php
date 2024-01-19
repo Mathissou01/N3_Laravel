@@ -6,24 +6,31 @@ use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Articles extends Model
+class Product extends Model
 {
     use HasFactory, Sortable;
 
     protected $fillable = [
-        'title',
+        'product_name',
+        'description',
+        'small_description',
         'category_id',
         'unit_id',
-        'slug',
+        'product_code',
+        'stock',
         'buying_price',
+        'selling_price',
+        'product_image',
     ];
 
     public $sortable = [
-        'title',
+        'product_name',
         'category_id',
         'unit_id',
-        'slug',
+        'product_code',
+        'stock',
         'buying_price',
+        'selling_price',
     ];
 
     protected $guarded = [
@@ -42,4 +49,10 @@ class Articles extends Model
         return $this->belongsTo(Unit::class, 'unit_id');
     }
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('product_name', 'like', '%' . $search . '%');
+        });
+    }
 }
