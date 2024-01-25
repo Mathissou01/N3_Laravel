@@ -19,7 +19,6 @@ class TasksSeeder extends Seeder
                 'name' => 'Tache ' . $i,
                 'date' => now(), 
                 'category_id' => rand(1, 4),
-                'description' => 'Description de la tâche ' . $i,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

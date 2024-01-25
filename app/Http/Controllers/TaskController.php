@@ -10,8 +10,8 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use App\Http\Requests\Product\StoreTaskRequest;
-use App\Http\Requests\Product\UpdateTaskRequest;
+use App\Http\Requests\Task\StoreTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
 
 class TaskController extends Controller
 {
@@ -42,7 +42,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('products.create', [
+        return view('tasks.create', [
             'categories' => Category::all(),
         ]);
     }
@@ -52,23 +52,10 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $product = Task::create($request->all());
-
-        /**
-         * Handle upload image
-         */
-        if($request->hasFile('product_image')){
-            $file = $request->file('product_image');
-            $filename = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
-
-            $file->storeAs('products/', $filename, 'public');
-            $product->update([
-                'product_image' => $filename
-            ]);
-        }
+        $task = Task::create($request->all());
 
         return redirect()
-            ->route('products.index')
+            ->route('tasks.index')
             ->with('success', 'Product has been created!');
     }
 
@@ -77,34 +64,28 @@ class TaskController extends Controller
      */
     public function show(Task $product)
     {
-        // Generate a barcode
-        $generator = new BarcodeGeneratorHTML();
-
-        $barcode = $generator->getBarcode($product->product_code, $generator::TYPE_CODE_128);
-
         return view('products.show', [
             'product' => $product,
-            'barcode' => $barcode,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $product)
+    public function edit(Task $task)
     {
-        return view('products.edit', [
+        return view('tasks.edit', [
             'categories' => Category::all(),
-            'product' => $product
+            'task' => $task
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $product)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        $product->update($request->except('product_image'));
+        $task->update($request->except('product_image'));
 
         /**
          * Handle upload an image
@@ -112,8 +93,8 @@ class TaskController extends Controller
         if($request->hasFile('product_image')){
 
             // Delete Old Photo
-            if($product->product_image){
-                unlink(public_path('storage/products/') . $product->product_image);
+            if($task->task){
+                unlink(public_path('storage/tasks/') . $task->product_image);
             }
 
             // Prepare New Photo
@@ -121,16 +102,16 @@ class TaskController extends Controller
             $fileName = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
 
             // Store an image to Storage
-            $file->storeAs('products/', $fileName, 'public');
+            $file->storeAs('tasks/', $fileName, 'public');
 
             // Save DB
-            $product->update([
+            $task->update([
                 'product_image' => $fileName
             ]);
         }
 
         return redirect()
-            ->route('products.index')
+            ->route('tasks.index')
             ->with('success', 'Product has been updated!');
     }
 
@@ -139,17 +120,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $product)
     {
-        /**
-         * Delete photo if exists.
-         */
-        if($product->product_image){
-            unlink(public_path('storage/products/') . $product->product_image);
-        }
-
         $product->delete();
 
         return redirect()
-            ->route('products.index')
+            ->route('tasks.index')
             ->with('success', 'Product has been deleted!');
     }
 
@@ -158,7 +132,7 @@ class TaskController extends Controller
      */
     public function import()
     {
-        return view('products.import');
+        return view('tasks.import');
     }
 
     public function handleImport(Request $request)
@@ -197,12 +171,12 @@ class TaskController extends Controller
         } catch (Exception $e) {
             // $error_code = $e->errorInfo[1];
             return redirect()
-                ->route('products.index')
+                ->route('tasks.index')
                 ->with('error', 'There was a problem uploading the data!');
         }
 
         return redirect()
-            ->route('products.index')
+            ->route('tasks.index')
             ->with('success', 'Data product has been imported!');
     }
 

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests\Product;
+namespace App\Http\Requests\Task;
 
-use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTaskRequest extends FormRequest
