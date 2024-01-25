@@ -2,9 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
-use App\Http\Requests\ContactFormRequest;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,23 +18,10 @@ use App\Http\Requests\ContactFormRequest;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::get('/users', [UserController::class, 'index'])->name('user.index');
 
-  // Route Products
+    // Route Products
     Route::get('/products/export', [ProductController::class, 'export'])->name('products.export');
     Route::get('/products/import', [ProductController::class, 'import'])->name('products.import');
     Route::post('/products/import', [ProductController::class, 'handleImport'])->name('products.handleImport');
     Route::resource('/products', ProductController::class);
-
-Route::get('/form', function () {
-    return view('contactForm');
-})->name('form');
-
-Route::post('/form', function (ContactFormRequest $request) {
-    dd($request->validated());
-})->name('form');
-
-
-Route::get('/users/{id}', function ($id) {
-    return $id;
-})->where(['id' => '[0-9]+'])->name('user.show');
+    Route::resource('/categories', CategoryController::class);

@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            {{-- @include('partials._breadcrumbs') --}}
+            @include('partials._breadcrumbs')
         </div>
     </div>
 </header>

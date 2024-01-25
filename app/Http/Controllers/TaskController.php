@@ -145,9 +145,9 @@ class ProductController extends Controller
         /**
          * Delete photo if exists.
          */
-        // if($product->product_image){
-        //     unlink(public_path('storage/products/') . $product->product_image);
-        // }
+        if($product->product_image){
+            unlink(public_path('storage/products/') . $product->product_image);
+        }
 
         $product->delete();
 

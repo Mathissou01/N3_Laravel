@@ -12,12 +12,12 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'slug',
+        'color',
     ];
 
     protected $sortable = [
         'name',
-        'slug',
+        'color',
     ];
 
     protected $guarded = [

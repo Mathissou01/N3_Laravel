@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @push('page-styles')
- {{--- ---}}
+
 @endpush
 
 @section('content')
@@ -13,19 +13,20 @@
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
                         <div class="page-header-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
-                        Add Product
+                        Edit Product
                     </h1>
                 </div>
             </div>
 
-            {{-- @include('partials._breadcrumbs') --}}
+            @include('partials._breadcrumbs')
         </div>
     </div>
 </header>
 
 <div class="container-xl px-2 mt-n10">
-    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('put')
         <div class="row">
             <div class="col-xl-4">
                 <!-- Product image card-->
@@ -33,7 +34,7 @@
                     <div class="card-header">Product Image</div>
                     <div class="card-body text-center">
                         <!-- Product image -->
-                        <img class="img-account-profile mb-2" src="{{ asset('assets/img/products/default.webp') }}" alt="" id="image-preview" />
+                        <img class="img-account-profile mb-2" src="{{ $product->product_image ? asset('storage/products/'.$product->product_image) : asset('assets/img/products/default.webp') }}" alt="" id="image-preview" />
                         <!-- Product image help block -->
                         <div class="small font-italic text-muted mb-2">JPG or PNG no larger than 2 MB</div>
                         <!-- Product image input -->
@@ -57,27 +58,8 @@
                         <!-- Form Group (product name) -->
                         <div class="mb-3">
                             <label class="small mb-1" for="product_name">Product name <span class="text-danger">*</span></label>
-                            <input class="form-control form-control-solid @error('product_name') is-invalid @enderror" id="product_name" name="product_name" type="text" placeholder="" value="{{ old('product_name') }}" autocomplete="off"/>
+                            <input class="form-control form-control-solid @error('product_name') is-invalid @enderror" id="product_name" name="product_name" type="text" placeholder="" value="{{ old('product_name', $product->product_name) }}" autocomplete="off"/>
                             @error('product_name')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                           <!-- Form Group (product name) -->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="small_description">Small description <span class="text-danger">*</span></label>
-                            <input class="form-control form-control-solid @error('small_description') is-invalid @enderror" id="small_description" name="small_description" type="text" placeholder="" value="{{ old('small_description') }}" autocomplete="off"/>
-                            @error('small_description')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                           <div class="mb-3">
-                            <label class="small mb-1" for="description">Description <span class="text-danger">*</span></label>
-                            <input class="form-control form-control-solid @error('description') is-invalid @enderror" id="description" name="description" type="text" placeholder="" value="{{ old('description') }}" autocomplete="off"/>
-                            @error('description')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -91,7 +73,7 @@
                                 <select class="form-select form-control-solid @error('category_id') is-invalid @enderror" id="category_id" name="category_id">
                                     <option selected="" disabled="">Select a category:</option>
                                     @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" @if(old('category_id') == $category->id) selected="selected" @endif>{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" @if(old('category_id', $product->category_id) == $category->id) selected="selected" @endif>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('category_id')
@@ -106,7 +88,7 @@
                                 <select class="form-select form-control-solid @error('unit_id') is-invalid @enderror" id="unit_id" name="unit_id">
                                     <option selected="" disabled="">Select a unit:</option>
                                     @foreach ($units as $unit)
-                                    <option value="{{ $unit->id }}" @if(old('unit_id') == $unit->id) selected="selected" @endif>{{ $unit->name }}</option>
+                                    <option value="{{ $unit->id }}" @if(old('unit_id', $product->unit_id) == $unit->id) selected="selected" @endif>{{ $unit->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('unit_id')
@@ -121,7 +103,7 @@
                             <!-- Form Group (buying price) -->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="buying_price">Buying price <span class="text-danger">*</span></label>
-                                <input class="form-control form-control-solid @error('buying_price') is-invalid @enderror" id="buying_price" name="buying_price" type="text" placeholder="" value="{{ old('buying_price') }}" autocomplete="off" />
+                                <input class="form-control form-control-solid @error('buying_price') is-invalid @enderror" id="buying_price" name="buying_price" type="text" placeholder="" value="{{ old('buying_price', $product->buying_price) }}" autocomplete="off" />
                                 @error('buying_price')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -131,7 +113,7 @@
                             <!-- Form Group (selling price) -->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="selling_price">Selling price <span class="text-danger">*</span></label>
-                                <input class="form-control form-control-solid @error('selling_price') is-invalid @enderror" id="selling_price" name="selling_price" type="text" placeholder="" value="{{ old('selling_price') }}" autocomplete="off" />
+                                <input class="form-control form-control-solid @error('selling_price') is-invalid @enderror" id="selling_price" name="selling_price" type="text" placeholder="" value="{{ old('selling_price', $product->selling_price) }}" autocomplete="off" />
                                 @error('selling_price')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -142,7 +124,7 @@
                         <!-- Form Group (stock) -->
                         <div class="mb-3">
                             <label class="small mb-1" for="stock">Stock <span class="text-danger">*</span></label>
-                            <input class="form-control form-control-solid @error('stock') is-invalid @enderror" id="stock" name="stock" type="text" placeholder="" value="{{ old('stock') }}" autocomplete="off" />
+                            <input class="form-control form-control-solid @error('stock') is-invalid @enderror" id="stock" name="stock" type="text" placeholder="" value="{{ old('stock', $product->stock) }}" autocomplete="off" />
                             @error('stock')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -151,7 +133,7 @@
                         </div>
 
                         <!-- Submit button -->
-                        <button class="btn btn-primary" type="submit">Save</button>
+                        <button class="btn btn-primary" type="submit">Update</button>
                         <a class="btn btn-danger" href="{{ route('products.index') }}">Cancel</a>
                     </div>
                 </div>
