@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -20,8 +20,8 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 
 
     // Route Products
-    Route::get('/products/export', [ProductController::class, 'export'])->name('products.export');
-    Route::get('/products/import', [ProductController::class, 'import'])->name('products.import');
-    Route::post('/products/import', [ProductController::class, 'handleImport'])->name('products.handleImport');
-    Route::resource('/products', ProductController::class);
+    Route::get('/tasks/export', [TaskController::class, 'export'])->name('tasks.export');
+    Route::get('/tasks/import', [TaskController::class, 'import'])->name('tasks.import');
+    Route::post('/tasks/import', [TaskController::class, 'handleImport'])->name('tasks.handleImport');
+    Route::resource('/tasks', TaskController::class);
     Route::resource('/categories', CategoryController::class);

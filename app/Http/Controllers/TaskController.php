@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Unit;
-use App\Models\Product;
+use App\Models\Task;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use App\Http\Requests\Product\StoreProductRequest;
-use App\Http\Requests\Product\UpdateProductRequest;
+use App\Http\Requests\Product\StoreTaskRequest;
+use App\Http\Requests\Product\UpdateTaskRequest;
 
-class ProductController extends Controller
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,14 +26,14 @@ class ProductController extends Controller
             abort(400, 'The per-page parameter must be an integer between 1 and 100.');
         }
 
-        $products = Product::with(['category', 'unit'])
+        $tasks = Task::with(['category'])
                 ->filter(request(['search']))
                 ->sortable()
                 ->paginate($row)
                 ->appends(request()->query());
 
-        return view('products.index', [
-            'products' => $products,
+        return view('tasks.index', [
+            'tasks' => $tasks,
         ]);
     }
 
@@ -45,16 +44,15 @@ class ProductController extends Controller
     {
         return view('products.create', [
             'categories' => Category::all(),
-            'units' => Unit::all(),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreTaskRequest $request)
     {
-        $product = Product::create($request->all());
+        $product = Task::create($request->all());
 
         /**
          * Handle upload image
@@ -77,7 +75,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Task $product)
     {
         // Generate a barcode
         $generator = new BarcodeGeneratorHTML();
@@ -93,11 +91,10 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Task $product)
     {
         return view('products.edit', [
             'categories' => Category::all(),
-            'units' => Unit::all(),
             'product' => $product
         ]);
     }
@@ -105,7 +102,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateTaskRequest $request, Task $product)
     {
         $product->update($request->except('product_image'));
 
@@ -140,7 +137,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Task $product)
     {
         /**
          * Delete photo if exists.
@@ -195,7 +192,7 @@ class ProductController extends Controller
                 $startcount++;
             }
 
-            Product::insert($data);
+            Task::insert($data);
 
         } catch (Exception $e) {
             // $error_code = $e->errorInfo[1];
@@ -213,7 +210,7 @@ class ProductController extends Controller
      * Handle export data products.
      */
     function export(){
-        $products = Product::all()->sortBy('product_name');
+        $products = Task::all()->sortBy('product_name');
 
         $product_array [] = array(
             'Product Name',

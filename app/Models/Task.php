@@ -15,7 +15,6 @@ class Task extends Model
         'description',
         'date',
         'category_id',
-        'unit_id',
     ];
 
     public $sortable = [

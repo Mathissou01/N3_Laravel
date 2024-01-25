@@ -13,18 +13,18 @@
                 <div class="col-auto my-4">
                     <h1 class="page-header-title">
                         <div class="page-header-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
-                        Liste de produit
+                        Liste de tâches
                     </h1>
                 </div>
                 <div class="col-auto my-4">
-                    <a href="{{ route('products.import') }}" class="btn btn-success add-list my-1"><i class="fa-solid fa-file-import me-3"></i>Importer</a>
-                    <a href="{{ route('products.export') }}" class="btn btn-warning add-list my-1"><i class="fa-solid fa-file-arrow-down me-3"></i>Exporter</a>
-                    <a href="{{ route('products.create') }}" class="btn btn-primary add-list my-1"><i class="fa-solid fa-plus me-3"></i>Ajouter</a>
-                    <a href="{{ route('products.index') }}" class="btn btn-danger add-list my-1"><i class="fa-solid fa-trash me-3"></i>Raffraichir</a>
+                    <a href="{{ route('tasks.import') }}" class="btn btn-success add-list my-1"><i class="fa-solid fa-file-import me-3"></i>Importer</a>
+                    <a href="{{ route('tasks.export') }}" class="btn btn-warning add-list my-1"><i class="fa-solid fa-file-arrow-down me-3"></i>Exporter</a>
+                    <a href="{{ route('tasks.create') }}" class="btn btn-primary add-list my-1"><i class="fa-solid fa-plus me-3"></i>Ajouter</a>
+                    <a href="{{ route('tasks.index') }}" class="btn btn-danger add-list my-1"><i class="fa-solid fa-trash me-3"></i>Raffraichir</a>
                 </div>
             </div>
 
-            @include('partials._breadcrumbs')
+            {{-- @include('partials._breadcrumbs') --}}
         </div>
     </div>
 
@@ -36,7 +36,7 @@
         <div class="card-body">
             <div class="row mx-n4">
                 <div class="col-lg-12 card-header mt-n4">
-                    <form action="{{ route('products.index') }}" method="GET">
+                    <form action="{{ route('tasks.index') }}" method="GET">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="form-group row align-items-center">
                                 <label for="row" class="col-auto">Ligne:</label>
@@ -54,7 +54,7 @@
                                 <label class="control-label col-sm-4" for="search">Rechercher:</label>
                                 <div class="col-sm-8">
                                     <div class="input-group">
-                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Chercher un produit" value="{{ request('search') }}">
+                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Chercher une tâche par nom" value="{{ request('search') }}">
                                         <div class="input-group-append">
                                             <button type="submit" class="input-group-text bg-primary"><i class="fa-solid fa-magnifying-glass font-size-20 text-white"></i></button>
                                         </div>
@@ -73,34 +73,24 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">Id.</th>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">@sortablelink('product_name', 'Nom de produit')</th>
+                                    <th scope="col">@sortablelink('name', 'Nom de tâche')</th>
                                     <th scope="col">@sortablelink('category.name', 'Categories')</th>
-                                    <th scope="col">@sortablelink('stock')</th>
-                                    <th scope="col">@sortablelink('unit.name', 'Unité')</th>
-                                    <th scope="col">@sortablelink('selling_price', 'Prix')</th>
+                                    <th scope="col">@sortablelink('date', 'Date')</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($products as $product)
+                                @foreach ($tasks as $task)
                                 <tr>
-                                    <th scope="row">{{ (($products->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
-                                    <td>
-                                        <div style="max-height: 80px; max-width: 80px;">
-                                            <img class="img-fluid"  src="{{ $product->product_image ? asset('storage/products/'.$product->product_image) : asset('assets/img/products/default.webp') }}">
-                                        </div>
-                                    </td>
-                                    <td>{{ $product->product_name }}</td>
-                                    <td>{{ $product->category->name }}</td>
-                                    <td>{{ $product->stock }}</td>
-                                    <td>{{ $product->unit->name }}</td>
-                                    <td>{{ $product->selling_price }}</td>
+                                    <th scope="row">{{ (($tasks->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
+                                    <td>{{ $task->name }}</td>
+                                    <td>{{ $task->category->name }}</td>
+                                    <td>{{ $task->date }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('products.show', $product->id) }}" class="btn btn-outline-success btn-sm mx-1"><i class="fa-solid fa-eye"></i></a>
-                                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>
-                                            <form action="{{ route('products.destroy', $product->id) }}" method="POST">
+                                            <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-outline-success btn-sm mx-1"><i class="fa-solid fa-eye"></i></a>
+                                            <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>
+                                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this record?')">
@@ -116,7 +106,7 @@
                     </div>
                 </div>
 
-                {{ $products->links() }}
+                {{ $tasks->links() }}
             </div>
         </div>
     </div>
