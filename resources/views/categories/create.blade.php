@@ -49,9 +49,9 @@
                         </div>
                         <!-- Form Group (slug) -->
                         <div class="mb-3">
-                            <label class="small mb-1" for="slug">Category Slug (non editable).</label>
-                            <input class="form-control form-control-solid @error('slug') is-invalid @enderror" id="slug" name="slug" type="text" placeholder="" value="{{ old('slug') }}" readonly />
-                            @error('slug')
+                            <label class="small mb-1" for="slug">Category color </label>
+                            <input class="form-control form-control-solid @error('color') is-invalid @enderror" id="color" name="color" type="text" placeholder="" value="{{ old('color') }}" readonly />
+                            @error('color')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -75,7 +75,7 @@
     <script>
         // Slug Generator
         const title = document.querySelector("#name");
-        const slug = document.querySelector("#slug");
+        const slug = document.querySelector("#color");
         title.addEventListener("keyup", function() {
             let preslug = title.value;
             preslug = preslug.replace(/ /g,"-");

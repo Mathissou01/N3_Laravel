@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            @include('partials._breadcrumbs')
+            {{-- @include('partials._breadcrumbs') --}}
         </div>
     </div>
 </header>
@@ -26,7 +26,6 @@
         @csrf
         @method('put')
         <div class="row">
-
             <div class="col-xl-12">
                 <!-- BEGIN: Category Details -->
                 <div class="card mb-4">
@@ -39,6 +38,15 @@
                             <label class="small mb-1" for="name">Category Name <span class="text-danger">*</span></label>
                             <input class="form-control form-control-solid @error('name') is-invalid @enderror" id="name" name="name" type="text" placeholder="" value="{{ old('name', $category->name) }}" autocomplete="off" />
                             @error('name')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                           <div class="mb-3">
+                            <label class="small mb-1" for="name">Couleur<span class="text-danger">*</span></label>
+                            <input class="form-control form-control-solid @error('color') is-invalid @enderror" id="color" name="color" type="text" placeholder="" value="{{ old('color', $category->color) }}" autocomplete="off" />
+                            @error('color')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>

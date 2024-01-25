@@ -16,7 +16,7 @@
                     <a href="{{ route('categories.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Raffraichir</a>
                 </div>
             </div>
-            @include('partials._breadcrumbs', ['model' => $categories])
+            {{-- @include('partials._breadcrumbs', ['model' => $categories]) --}}
         </div>
     </div>
 
@@ -88,6 +88,7 @@
                                     <th scope="col">Id.</th>
                                     <th scope="col">@sortablelink('name', 'Nom de catégorie')</th>
                                     <th scope="col">@sortablelink('slug', 'Description de catégorie')</th>
+                                      <th scope="col">@sortablelink('color', 'Couleur')</th>
                                     <th scope="col">Action</th>
                                 </tr>
                                 </thead>
@@ -97,6 +98,7 @@
                                         <th scope="row">{{ (($categories->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->slug }}</td>
+                                        <td>{{ $category->color }}</td>
                                         <td>
                                             <div class="d-flex">
                                                 <a href="{{ route('categories.edit', $category->slug) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>
