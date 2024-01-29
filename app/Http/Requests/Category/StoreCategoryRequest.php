@@ -28,9 +28,13 @@ class StoreCategoryRequest extends FormRequest
             ],
             'color' => [
                 'required',
+            ],
+              'slug' => [
+                'required',
                 'unique:categories,slug',
                 'alpha_dash'
             ]
+           
         ];
     }
 }

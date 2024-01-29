@@ -56,16 +56,16 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.index')
-            ->with('success', 'Product has been created!');
+            ->with('success', 'La tâche a été créée');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Task $product)
+    public function show(Task $task)
     {
-        return view('products.show', [
-            'product' => $product,
+        return view('tasks.show', [
+            'task' => $task,
         ]);
     }
 
@@ -118,13 +118,13 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $product)
+    public function destroy(Task $task)
     {
-        $product->delete();
+        $task->delete();
 
         return redirect()
             ->route('tasks.index')
-            ->with('success', 'Product has been deleted!');
+            ->with('success', 'La tâche a bien été supprimé');
     }
 
     /**
@@ -184,51 +184,41 @@ class TaskController extends Controller
      * Handle export data products.
      */
     function export(){
-        $products = Task::all()->sortBy('product_name');
+        $tasks = Task::all()->sortBy('name');
 
-        $product_array [] = array(
-            'Product Name',
+        $task_array [] = array(
+            'Nom',
             'Category Id',
-            'Unit Id',
-            'Product Code',
-            'Stock',
-            'Buying Price',
-            'Selling Price',
-            'Product Image',
+            'Date',
         );
 
-        foreach($products as $product)
+        foreach($tasks as $task)
         {
-            $product_array[] = array(
-                'Product Name' => $product->product_name,
-                'Category Id' => $product->category_id,
-                'Unit Id' => $product->unit_id,
-                'Product Code' => $product->product_code,
-                'Stock' => $product->stock,
-                'Buying Price' =>$product->buying_price,
-                'Selling Price' =>$product->selling_price,
-                'Product Image' => $product->product_image,
+            $task_array[] = array(
+                'Name' => $task->name,
+                'Category Id' => $task->category_id,
+                'Date' => $task->date,
             );
         }
 
-        $this->exportExcel($product_array);
+        $this->exportExcel($task_array);
     }
 
     /**
      *This function loads the customer data from the database then converts it
      * into an Array that will be exported to Excel
      */
-    public function exportExcel($products){
+    public function exportExcel($tasks){
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');
 
         try {
             $spreadSheet = new Spreadsheet();
             $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(20);
-            $spreadSheet->getActiveSheet()->fromArray($products);
+            $spreadSheet->getActiveSheet()->fromArray($tasks);
             $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="products.xls"');
+            header('Content-Disposition: attachment;filename="tasks.xls"');
             header('Cache-Control: max-age=0');
             ob_end_clean();
             $Excel_writer->save('php://output');

@@ -87,7 +87,7 @@
                                 <tr>
                                     <th scope="col">Id.</th>
                                     <th scope="col">@sortablelink('name', 'Nom de catégorie')</th>
-                                    <th scope="col">@sortablelink('slug', 'Description de catégorie')</th>
+                                    <th scope="col">@sortablelink('slug', 'Slug de catégorie')</th>
                                       <th scope="col">@sortablelink('color', 'Couleur')</th>
                                     <th scope="col">Action</th>
                                 </tr>
