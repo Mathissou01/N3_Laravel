@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PlanningController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,4 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::post('/tasks/import', [TaskController::class, 'handleImport'])->name('tasks.handleImport');
     Route::resource('/tasks', TaskController::class);
     Route::resource('/categories', CategoryController::class);
+    Route::resource('/planning', PlanningController::class);

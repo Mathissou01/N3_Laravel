@@ -12,6 +12,7 @@ use Picqer\Barcode\BarcodeGeneratorHTML;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -50,14 +51,19 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request)
-    {
-        $task = Task::create($request->all());
+   public function store(StoreTaskRequest $request)
+{
+    $data = $request->validated();
+    
+    // Formater la date avec Carbon en français
+    $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->locale('fr_FR')->toDateString();
 
-        return redirect()
-            ->route('tasks.index')
-            ->with('success', 'La tâche a été créée');
-    }
+    $task = Task::create($data);
+
+    return redirect()
+        ->route('tasks.index')
+        ->with('success', 'La tâche a été créée');
+}
 
     /**
      * Display the specified resource.

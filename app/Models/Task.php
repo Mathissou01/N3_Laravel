@@ -12,8 +12,8 @@ class Task extends Model
 
     protected $fillable = [
         'name',
-        'description',
         'date',
+        'heure',
         'category_id',
     ];
 
@@ -21,6 +21,7 @@ class Task extends Model
         'name',
         'category_id',
         'date',
+        'heure'
     ];
 
     protected $guarded = [

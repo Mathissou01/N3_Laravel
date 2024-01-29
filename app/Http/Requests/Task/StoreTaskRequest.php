@@ -23,7 +23,9 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'category_id' => 'required|integer',        
+            'category_id' => 'required|integer',   
+            'date' => 'required|date_format:Y-m-d', 
+            'heure' => 'required|date_format:H:i',    
         ];
     }
 }

@@ -38,7 +38,7 @@
                     <div class="card-body">
                         <!-- Form Group (product name) -->
                         <div class="mb-3">
-                            <label class="small mb-1" for="name">Product name <span class="text-danger">*</span></label>
+                            <label class="small mb-1" for="name">Nom de la tâche <span class="text-danger">*</span></label>
                             <input class="form-control form-control-solid @error('name') is-invalid @enderror" id="name" name="name" type="text" placeholder="" value="{{ old('name') }}" autocomplete="off"/>
                             @error('name')
                             <div class="invalid-feedback">
@@ -50,9 +50,9 @@
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (type of product category) -->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="category_id">Product category <span class="text-danger">*</span></label>
+                                <label class="small mb-1" for="category_id">Catégorie de la tâche <span class="text-danger">*</span></label>
                                 <select class="form-select form-control-solid @error('category_id') is-invalid @enderror" id="category_id" name="category_id">
-                                    <option selected="" disabled="">Select a category:</option>
+                                    <option selected="" disabled="">Choisir une catégorie :</option>
                                     @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" @if(old('category_id') == $category->id) selected="selected" @endif>{{ $category->name }}</option>
                                     @endforeach
@@ -66,18 +66,26 @@
                        
                         </div>
                         <!-- Form Row -->
-                        <div class="row gx-3 mb-3">
+                       <div class="row gx-3 mb-3">
                             <!-- Form Group (buying price) -->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="buying_price">Date <span class="text-danger">*</span></label>
-                                <input class="form-control form-control-solid @error('date') is-invalid @enderror" id="date" name="date" type="text" placeholder="" value="{{ old('date') }}" autocomplete="off" />
+                                <label class="small mb-1" for="date">Date <span class="text-danger">*</span></label>
+                                <input class="form-control form-control-solid @error('date') is-invalid @enderror" id="date" name="date" type="date" placeholder="" value="{{ old('date') }}" autocomplete="off" />
                                 @error('date')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
-                        
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="heure">Heure <span class="text-danger">*</span></label>
+                                <input class="form-control form-control-solid @error('heure') is-invalid @enderror" id="heure" name="heure" type="time" placeholder="" value="{{ old('heure') }}" autocomplete="off" />
+                                @error('heure')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
                         </div>
                         <!-- Submit button -->
                         <button class="btn btn-primary" type="submit">Save</button>

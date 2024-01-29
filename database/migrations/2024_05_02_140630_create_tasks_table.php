@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('date');
+            $table->date('date');
+            $table->time('heure'); 
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')
                     ->references('id')->on('categories')
