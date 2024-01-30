@@ -17,9 +17,12 @@ use App\Http\Controllers\PlanningController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/', function () {
+    return view('dashboard.index');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 
+Route::middleware('auth')->group(function () {
     // Route Products
     Route::get('/tasks/export', [TaskController::class, 'export'])->name('tasks.export');
     Route::get('/tasks/import', [TaskController::class, 'import'])->name('tasks.import');
@@ -27,3 +30,5 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::resource('/tasks', TaskController::class);
     Route::resource('/categories', CategoryController::class);
     Route::resource('/planning', PlanningController::class);
+});
+require __DIR__.'/auth.php';
