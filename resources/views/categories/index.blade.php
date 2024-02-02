@@ -16,7 +16,6 @@
                     <a href="{{ route('categories.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Raffraichir</a>
                 </div>
             </div>
-            {{-- @include('partials._breadcrumbs', ['model' => $categories]) --}}
         </div>
     </div>
 
@@ -117,7 +116,6 @@
                             </table>
                         </div>
                     </div>
-
                     {{ $categories->links() }}
                 </div>
             </div>

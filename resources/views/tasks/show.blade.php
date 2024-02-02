@@ -39,19 +39,19 @@
             <!-- BEGIN: task Information -->
             <div class="card mb-4">
                 <div class="card-header">
-                    task Information
+                   Information de la tâche
                 </div>
                 <div class="card-body">
                     <!-- Form Group (task name) -->
                     <div class="mb-3">
-                        <label class="small mb-1">task name</label>
+                        <label class="small mb-1">Nom</label>
                         <div class="form-control form-control-solid">{{ $task->name }}</div>
                     </div>
                     <!-- Form Row -->
                     <div class="row gx-3 mb-3">
                         <!-- Form Group (type of task category) -->
                         <div class="col-md-6">
-                            <label class="small mb-1">task category</label>
+                            <label class="small mb-1">Category</label>
                             <div class="form-control form-control-solid">{{ $task->category->name  }}</div>
                         </div>
             
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <!-- Submit button -->
-                    <a class="btn btn-primary" href="{{ route('tasks.index') }}">Back</a>
+                    <a class="btn btn-primary" href="{{ route('tasks.index') }}">Retour</a>
                 </div>
             </div>
             <!-- END: task Information -->

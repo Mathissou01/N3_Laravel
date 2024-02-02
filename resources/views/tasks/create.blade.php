@@ -13,12 +13,10 @@
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
                         <div class="page-header-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
-                        Add Task
+                        Ajouter une tâche                    
                     </h1>
                 </div>
             </div>
-
-            {{-- @include('partials._breadcrumbs') --}}
         </div>
     </div>
 </header>
@@ -27,13 +25,11 @@
     <form action="{{ route('tasks.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
-        
-
             <div class="col-xl-8">
                 <!-- BEGIN: Product Details -->
                 <div class="card mb-4">
                     <div class="card-header">
-                        Tasks Details
+                        Détais de la tâche
                     </div>
                     <div class="card-body">
                         <!-- Form Group (product name) -->
@@ -88,8 +84,8 @@
                             </div>
                         </div>
                         <!-- Submit button -->
-                        <button class="btn btn-primary" type="submit">Save</button>
-                        <a class="btn btn-danger" href="{{ route('tasks.index') }}">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Sauvegarder</button>
+                        <a class="btn btn-danger" href="{{ route('tasks.index') }}">Annuler</a>
                     </div>
                 </div>
                 <!-- END: Product Details -->
